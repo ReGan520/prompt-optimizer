@@ -5,10 +5,6 @@
       "root": ".",
       "runtime": "container"
     },
-    "mkdocs": {
-      "root": "mkdocs",
-      "runtime": "python"
-    },
     "extension": {
       "root": "packages/extension",
       "framework": "vite"
