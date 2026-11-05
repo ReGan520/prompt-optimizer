@@ -1,30 +1,41 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "if [[ $(pwd) == */packages/extension ]]; then cd ../.. && pnpm build && mkdir -p packages/extension/packages/web && cp -r packages/web/dist packages/extension/packages/web/dist; else pnpm build; fi",
-  "outputDirectory": "packages/web/dist",
-  "installCommand": "pwd && if [[ $(pwd) == */packages/extension ]]; then cd ../..; fi && pnpm install",
+  "services": {
+    "app": {
+      "root": ".",
+      "runtime": "container"
+    },
+    "mkdocs": {
+      "root": "mkdocs",
+      "runtime": "python"
+    },
+    "extension": {
+      "root": "packages/extension",
+      "framework": "vite"
+    },
+    "mcp-server": {
+      "root": "packages/mcp-server",
+      "framework": "express"
+    },
+    "ui": {
+      "root": "packages/ui",
+      "framework": "vite"
+    },
+    "web": {
+      "root": "packages/web",
+      "framework": "vite"
+    },
+    "site": {
+      "root": "site",
+      "framework": "vite"
+    }
+  },
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
-    {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": {
+        "service": "app"
+      }
     }
-  ],
-  "github": {
-    "silent": true
-  },
-  "git": {
-    "deploymentEnabled": {
-      "main": true,
-      "master": true
-    }
-  },
-  "build": {
-    "env": {
-      "VITE_VERCEL_DEPLOYMENT": "true"
-    }
-  }
-} 
+  ]
+}
